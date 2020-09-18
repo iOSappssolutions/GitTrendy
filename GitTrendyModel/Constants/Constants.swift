@@ -16,6 +16,7 @@ public struct C {
     // MARK: Endpoints
     
     static let searchRepositories = "search/repositories"
+    static let getReadme = "README.md"
     
     // MARK: String constans
     
