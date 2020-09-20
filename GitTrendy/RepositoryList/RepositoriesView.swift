@@ -24,8 +24,6 @@ struct RepositoriesView: View {
                     RepositoryRow(repository: githubRepositoriesViewModel.repositories[index])
                     .onAppear(perform: {
                         if(index == githubRepositoriesViewModel.repositories.count - 9) {
-                            print("fetch index")
-                            print(index)
                             let page = (githubRepositoriesViewModel.repositories.count / 30) + 1
                             self.githubRepositoriesViewModel.loadTrendingRepositories(forPage: page)
                         }

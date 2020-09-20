@@ -35,7 +35,6 @@ public class GithubRepositoryDetailsViewModel: ObservableObject {
             }
             self.isLoading = false
         } receiveValue: { [unowned self] in
-            print($0)
             self.readme = String(data: $0, encoding: .utf8)!
         }
         .store(in: &subscriptions)

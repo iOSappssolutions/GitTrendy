@@ -31,8 +31,7 @@ public class GithubRepositoriesViewModel: ObservableObject {
         } else {
             return
         }
-        print("pulling for page")
-        print(currentPage)
+
         api.fetchTrendingRepositories(keyword: keyword, page: currentPage)
         .retry(1)
         .sink { [weak self] in

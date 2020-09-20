@@ -112,8 +112,6 @@ class RepositoriesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let index = indexPath.row
         if(index == repositoriesViewModel.repositories.count - 9) {
-            print("fetch index")
-            print(index)
             let page = (repositoriesViewModel.repositories.count / 30) + 1
             self.repositoriesViewModel.loadTrendingRepositories(forPage: page)
         }
