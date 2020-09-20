@@ -15,6 +15,7 @@ class RepositoriesViewController: UITableViewController {
     private var subscriptions = Set<AnyCancellable>()
     private let repositoryCellID = "repositoryCellID"
     private var spinner: UIView?
+    private let searchContainer = SearchBarContainer()
     
     private var repositories: [GitHubRepository] = [] {
         didSet {
@@ -29,17 +30,6 @@ class RepositoriesViewController: UITableViewController {
         }
     }
     
-    private var isLoading: Bool = false {
-        didSet {
-            if(isLoading) {
-                spinner = RepositoriesViewController.displaySpinner()
-            } else {
-                guard let spinner = spinner else { return }
-                RepositoriesViewController.removeSpinner(spinner: spinner)
-            }
-        }
-    }
-    
     private func registerCells() {
         tableView.register(RepositoryCell.self, forCellReuseIdentifier: repositoryCellID)
     }
@@ -49,10 +39,6 @@ class RepositoriesViewController: UITableViewController {
         repositoriesViewModel.$alertMessage
         .map({ $0?.message })
         .assign(to: \.alertMessage, on: self)
-        .store(in: &subscriptions)
-        
-        repositoriesViewModel.$isLoading
-        .assign(to: \.isLoading, on: self)
         .store(in: &subscriptions)
         
         repositoriesViewModel.$repositories
@@ -66,9 +52,13 @@ class RepositoriesViewController: UITableViewController {
         super.init(nibName: nil, bundle: nil)
         self.setupStreams()
         self.registerCells()
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
-        view.backgroundColor = .white
+        self.navigationItem.title = "GIthub Trends"
+        let appearance = UINavigationBarAppearance()
+        appearance.titleTextAttributes = [.foregroundColor: UIColor(named: "secondaryTextColor")!]
+        UINavigationBar.appearance().tintColor = UIColor(named: "secondaryTextColor")!
+        navigationItem.standardAppearance = appearance
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -77,6 +67,19 @@ class RepositoriesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+        
+        searchContainer.searchBar.delegate = self
+        tableView.tableHeaderView = searchContainer
+        tableView.layoutIfNeeded()
+        tableView.showsVerticalScrollIndicator = false
+        searchContainer.backgroundColor = UIColor(named: "searchBarColor")
+        searchContainer.frame.size.height = 60
+        
+        
+        tableView.backgroundColor = UIColor(named: "primaryColor")
+        view.backgroundColor = UIColor(named: "primaryColor")
+        
         repositoriesViewModel.loadTrendingRepositories()
     }
     
@@ -99,25 +102,37 @@ class RepositoriesViewController: UITableViewController {
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 300
-//    }
-    
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        headerView.xPubViewModel = self.xPubViewModel
-//        return headerView
-//
-//    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let repository = repositories[indexPath.row]
         self.view.endEditing(true)
-//        let presentVC = TransactionDetailsViewController(transaction: transaction)
-//        self.present(presentVC, animated: true, completion: nil)
-        
+        let repositoryDetails = RepositoryDetails(repositoryDetailsViewModel: RepositoriesViewModelFactory.makeGithubRepositoriesDetailsViewModel(repository: repositories[indexPath.row]))
+        self.navigationController?.pushViewController(repositoryDetails, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let index = indexPath.row
+        if(index == repositoriesViewModel.repositories.count - 9) {
+            print("fetch index")
+            print(index)
+            let page = (repositoriesViewModel.repositories.count / 30) + 1
+            self.repositoriesViewModel.loadTrendingRepositories(forPage: page)
+        }
     }
 
 
 }
 
+extension RepositoriesViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        //getRepertoire(pageIndex: "1", searchTitle: searchBar.text ?? "")
+        repositoriesViewModel.filterRepositories(keyword: searchBar.text ?? "")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if(searchBar.text?.count == 0) {
+            repositoriesViewModel.filterRepositories(keyword:
+                                                "")
+        }
+    }
+}

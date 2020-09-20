@@ -18,7 +18,6 @@ struct ToolBar: View {
                     .padding(.trailing)
                 }
                 .frame(height: 40)
-                //.background(Color(C.formColor))
                 .padding(.bottom, self.keyboardHandler.toolBarPosition - geometry.safeAreaInsets.bottom)
             }
             .opacity(self.keyboardHandler.isVisible ? 1 : 0)

@@ -17,7 +17,10 @@ extension UIViewController {
     
     class func displaySpinner() -> UIView {
         let spinnerView = UIView.init(frame: UIScreen.main.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.65)
+        spinnerView.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .regular)
+        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.frame = spinnerView.bounds
         var ai: UIActivityIndicatorView
     
         ai = UIActivityIndicatorView.init(style: UIActivityIndicatorView.Style.large)
@@ -26,6 +29,7 @@ extension UIViewController {
         ai.center = spinnerView.center
         
         DispatchQueue.main.async {
+            spinnerView.addSubview(blurredEffectView)
             spinnerView.addSubview(ai)
             
             guard let keyWindow = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return }

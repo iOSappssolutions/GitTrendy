@@ -16,19 +16,19 @@ class RepositoryCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
         addConstraints()
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "primaryColor")
     }
     
     private let repositoryName: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 18)
 
         return label
     }()
     
     private let starsCount: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 16)
         
         return label
     }()
@@ -36,7 +36,7 @@ class RepositoryCell: UITableViewCell {
     private let repositoryDescription: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
-        
+        label.textColor = .lightGray
         return label
     }()
     
