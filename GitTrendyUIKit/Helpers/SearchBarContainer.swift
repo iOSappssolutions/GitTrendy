@@ -8,13 +8,8 @@
 import UIKit
 
 class SearchBarContainer: UIView {
-    
+    // MARK: - Properties
     public var searchBar = UISearchBar()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customInit()
-    }
     
     private let searchToolBar: UIToolbar = {
         let toolBar = UIToolbar()
@@ -29,6 +24,12 @@ class SearchBarContainer: UIView {
         
         return toolBar
     }()
+    
+    // MARK: - Methods
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        customInit()
+    }
     
     private func customInit() {
         addSubviews()

@@ -20,7 +20,8 @@ struct RepositoriesView: View {
             .listRowInsets(EdgeInsets())
             ForEach(0..<githubRepositoriesViewModel.repositories.count, id: \.self) { index in
                 NavigationLink(destination: RepositoryDetails(githubRepositoryDetailsViewModel: RepositoriesViewModelFactory
-                                                                                                .makeGithubRepositoriesDetailsViewModel(repository: githubRepositoriesViewModel.repositories[index]))) {
+                    .makeGithubRepositoriesDetailsViewModel(repository: githubRepositoriesViewModel.repositories[index]))) {
+                    
                     RepositoryRow(repository: githubRepositoriesViewModel.repositories[index])
                     .onAppear(perform: {
                         if(index == githubRepositoriesViewModel.repositories.count - 9) {

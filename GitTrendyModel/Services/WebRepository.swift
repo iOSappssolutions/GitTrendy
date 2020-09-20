@@ -73,7 +73,6 @@ private extension Publisher where Output == URLSession.DataTaskPublisher.Output 
     func requestJSON<Value>(httpCodes: HTTPCodes) -> AnyPublisher<Value, Error> where Value: Decodable {
         return tryMap {
                 assert(!Thread.isMainThread)
-            NSLog(String(data: $0.0, encoding: .utf8)!)
                 guard let code = ($0.1 as? HTTPURLResponse)?.statusCode else {
                     throw APIError.unexpectedResponse
                 }

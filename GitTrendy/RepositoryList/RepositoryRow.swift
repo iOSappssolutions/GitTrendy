@@ -17,6 +17,7 @@ struct RepositoryRow: View {
             HStack {
                 Text(repository.name)
                     .fontWeight(.bold)
+                
                 Spacer()
             }
             
@@ -24,10 +25,13 @@ struct RepositoryRow: View {
                 Image(systemName: "star")
                     .renderingMode(.template)
                     .foregroundColor(Color("starColor"))
+                
                 Text(String(repository.starsCount))
                     .fontWeight(.semibold)
+                
                 Spacer()
             }
+            
             HStack {
                 Text(repository.description ?? "")
                     .foregroundColor(Color(.lightGray))
@@ -35,8 +39,7 @@ struct RepositoryRow: View {
             }
             
             Spacer()
-            
-           // Divider()
+        
         }
     }
 }

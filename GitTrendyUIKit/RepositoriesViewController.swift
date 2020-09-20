@@ -11,6 +11,7 @@ import GitTrendyModel
 
 class RepositoriesViewController: UITableViewController {
     
+    // MARK: - Properties
     private var repositoriesViewModel = GithubRepositoriesViewModel()
     private var subscriptions = Set<AnyCancellable>()
     private let repositoryCellID = "repositoryCellID"
@@ -30,6 +31,7 @@ class RepositoriesViewController: UITableViewController {
         }
     }
     
+    // MARK: - Methods
     private func registerCells() {
         tableView.register(RepositoryCell.self, forCellReuseIdentifier: repositoryCellID)
     }
@@ -38,7 +40,9 @@ class RepositoriesViewController: UITableViewController {
         
         repositoriesViewModel.$alertMessage
         .map({ $0?.message })
-        .assign(to: \.alertMessage, on: self)
+        .sink(receiveValue: { [weak self] alertMessage in
+            self?.alertMessage = alertMessage
+        })
         .store(in: &subscriptions)
         
         repositoriesViewModel.$repositories
@@ -48,16 +52,37 @@ class RepositoriesViewController: UITableViewController {
         .store(in: &subscriptions)
     }
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    private func setup() {
         self.setupStreams()
         self.registerCells()
+        self.setupNavigationItem()
+        self.setupTable()
+    }
+    
+    private func setupNavigationItem() {
         self.navigationItem.title = "GIthub Trends"
         let appearance = UINavigationBarAppearance()
         appearance.titleTextAttributes = [.foregroundColor: UIColor(named: "secondaryTextColor")!]
         UINavigationBar.appearance().tintColor = UIColor(named: "secondaryTextColor")!
         navigationItem.standardAppearance = appearance
+    }
+    
+    private func setupTable() {
+        searchContainer.searchBar.delegate = self
+        tableView.tableHeaderView = searchContainer
+        tableView.layoutIfNeeded()
+        tableView.showsVerticalScrollIndicator = false
+        searchContainer.backgroundColor = UIColor(named: "searchBarColor")
+        searchContainer.frame.size.height = 60
+        tableView.backgroundColor = UIColor(named: "primaryColor")
+        view.backgroundColor = UIColor(named: "primaryColor")
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
         
+        
+        self.setup()
         
     }
     
@@ -67,18 +92,6 @@ class RepositoriesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-        
-        searchContainer.searchBar.delegate = self
-        tableView.tableHeaderView = searchContainer
-        tableView.layoutIfNeeded()
-        tableView.showsVerticalScrollIndicator = false
-        searchContainer.backgroundColor = UIColor(named: "searchBarColor")
-        searchContainer.frame.size.height = 60
-        
-        
-        tableView.backgroundColor = UIColor(named: "primaryColor")
-        view.backgroundColor = UIColor(named: "primaryColor")
         
         repositoriesViewModel.loadTrendingRepositories()
     }
@@ -123,7 +136,6 @@ class RepositoriesViewController: UITableViewController {
 extension RepositoriesViewController: UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        //getRepertoire(pageIndex: "1", searchTitle: searchBar.text ?? "")
         repositoriesViewModel.filterRepositories(keyword: searchBar.text ?? "")
     }
     

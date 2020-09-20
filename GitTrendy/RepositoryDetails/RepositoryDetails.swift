@@ -65,6 +65,7 @@ struct RepositoryDetails: View {
                         Spacer()
                         
                         HStack(spacing: 0) {
+                            
                             VStack(spacing: 0) {
                                 Spacer()
                                 
@@ -104,8 +105,6 @@ struct RepositoryDetails: View {
                 )
                 .frame(width: 300)
 
-                
-                
                 HStack {
                     Text("Readme.md")
                         .fontWeight(.bold)
@@ -126,6 +125,7 @@ struct RepositoryDetails: View {
         .onAppear(perform: {
             githubRepositoryDetailsViewModel.getReadme()
         })
+        
     }
 }
 

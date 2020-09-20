@@ -44,6 +44,7 @@
 		226873522517C21700038536 /* GitTrendyModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2209BE8725153902004CB29F /* GitTrendyModel.framework */; };
 		226873532517C21700038536 /* GitTrendyModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2209BE8725153902004CB29F /* GitTrendyModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2268735B2517C75D00038536 /* SearchBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2268735A2517C75D00038536 /* SearchBarContainer.swift */; };
+		22B0A24F2518010700123057 /* ReadmeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B0A24E2518010700123057 /* ReadmeTextView.swift */; };
 		22C0B450251640E3003E555F /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C0B44F251640E3003E555F /* TextView.swift */; };
 		22C0B4592516629D003E555F /* RepositoriesViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C0B4582516629D003E555F /* RepositoriesViewModelFactory.swift */; };
 		22C0B46F25167834003E555F /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C0B46E25167834003E555F /* URLImage.swift */; };
@@ -160,6 +161,7 @@
 		22687345251780B800038536 /* RepositoryContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryContentView.swift; sourceTree = "<group>"; };
 		22687346251780B800038536 /* RepositoryScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryScrollView.swift; sourceTree = "<group>"; };
 		2268735A2517C75D00038536 /* SearchBarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainer.swift; sourceTree = "<group>"; };
+		22B0A24E2518010700123057 /* ReadmeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadmeTextView.swift; sourceTree = "<group>"; };
 		22C0B44F251640E3003E555F /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		22C0B4582516629D003E555F /* RepositoriesViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesViewModelFactory.swift; sourceTree = "<group>"; };
 		22C0B46E25167834003E555F /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
@@ -391,7 +393,6 @@
 				22C0B48F2516BDE3003E555F /* KeyboardFollower.swift */,
 				22C0B48525167A12003E555F /* LoadingView.swift */,
 				22C0B49B2516BE40003E555F /* ToolBar.swift */,
-				22C0B44F251640E3003E555F /* TextView.swift */,
 				22C0B46E25167834003E555F /* URLImage.swift */,
 			);
 			path = Helpers;
@@ -419,6 +420,8 @@
 			isa = PBXGroup;
 			children = (
 				2209BF7125158615004CB29F /* RepositoryDetails.swift */,
+				22C0B44F251640E3003E555F /* TextView.swift */,
+				22B0A24E2518010700123057 /* ReadmeTextView.swift */,
 			);
 			path = RepositoryDetails;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 				2209BF4125156E60004CB29F /* SearchBar.swift in Sources */,
 				22C0B4962516BE05003E555F /* UIResponder+Additions.swift in Sources */,
 				22C0B4AF2516CC60003E555F /* AppDelegate.swift in Sources */,
+				22B0A24F2518010700123057 /* ReadmeTextView.swift in Sources */,
 				2209BF6325157FEA004CB29F /* RootView.swift in Sources */,
 				22C0B49C2516BE40003E555F /* ToolBar.swift in Sources */,
 				22C0B450251640E3003E555F /* TextView.swift in Sources */,
@@ -1052,7 +1056,7 @@
 				DEVELOPMENT_TEAM = 6H82KV2XS8;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = GitTrendy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1076,7 +1080,7 @@
 				DEVELOPMENT_TEAM = 6H82KV2XS8;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = GitTrendy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1200,7 +1204,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6H82KV2XS8;
 				INFOPLIST_FILE = GitTrendyUIKit/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1221,7 +1225,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6H82KV2XS8;
 				INFOPLIST_FILE = GitTrendyUIKit/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

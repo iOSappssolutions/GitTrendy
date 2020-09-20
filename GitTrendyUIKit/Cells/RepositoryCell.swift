@@ -10,14 +10,8 @@ import GitTrendyModel
 
 class RepositoryCell: UITableViewCell {
     
+    // MARK: - Properties
     private var repository: GitHubRepository?
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubviews()
-        addConstraints()
-        backgroundColor = UIColor(named: "primaryColor")
-    }
     
     private let repositoryName: UILabel = {
         let label = UILabel()
@@ -49,11 +43,23 @@ class RepositoryCell: UITableViewCell {
         return imageView
     }()
     
+    // MARK: - Methods
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubviews()
+        addConstraints()
+        setup()
+    }
+    
     private func addSubviews() {
         addSubview(repositoryName)
         addSubview(starImageView)
         addSubview(starsCount)
         addSubview(repositoryDescription)
+    }
+    
+    private func setup() {
+        backgroundColor = UIColor(named: "primaryColor")
     }
     
     func setCell(repository: GitHubRepository) {

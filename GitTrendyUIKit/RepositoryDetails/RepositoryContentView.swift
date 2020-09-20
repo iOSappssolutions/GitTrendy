@@ -12,7 +12,8 @@ import Kingfisher
 import MMMarkdown
 
 class RepositoryContentView: UIView {
-
+    
+    // MARK: - Properties
     private var repository: GitHubRepository
     
     lazy private var ownerPhoto: UIImageView = {
@@ -162,7 +163,6 @@ class RepositoryContentView: UIView {
     
     private let readmeTitle: UILabel = {
         let label = UILabel()
-        label.textColor = .black
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 16)
@@ -180,6 +180,7 @@ class RepositoryContentView: UIView {
         return textView
     }()
     
+    // MARK: - Methods
     func setReadme(text: String) {
         guard text != "",
               let htmlString = try? MMMarkdown.htmlString(withMarkdown: text),

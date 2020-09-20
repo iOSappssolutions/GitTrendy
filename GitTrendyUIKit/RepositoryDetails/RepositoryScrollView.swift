@@ -9,12 +9,13 @@ import UIKit
 import GitTrendyModel
 
 class RepositoryScrollView: UIScrollView {
-
+    
+    // MARK: - Properties
     private var repository: GitHubRepository
     
     lazy private var scrollContainerView = RepositoryContentView(repository: repository)
     
-    
+    // MARK: - Methods
     init(repository: GitHubRepository) {
         self.repository = repository
         super.init(frame: .zero)

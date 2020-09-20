@@ -26,19 +26,19 @@ public class ImageLoader: ObservableObject {
         }
         isLoading = true
         URLSession.shared.dataTask(with: imageURL) { data, response, error in
-            DispatchQueue.main.async {
-                self.isLoading = false
+            DispatchQueue.main.async { [weak self] in
+                self?.isLoading = false
             }
             guard let data = data, error == nil else {
-                DispatchQueue.main.async {
-                     self.didChange.send(nil)
+                DispatchQueue.main.async { [weak self] in
+                     self?.didChange.send(nil)
                 }
                 return
             }
             
-            DispatchQueue.main.async {
-                self.downloadedImage = UIImage(data: data)
-                self.didChange.send(self)
+            DispatchQueue.main.async { [weak self] in
+                self?.downloadedImage = UIImage(data: data)
+                self?.didChange.send(self)
             }
             
         }.resume()

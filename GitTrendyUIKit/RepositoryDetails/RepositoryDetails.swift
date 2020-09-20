@@ -11,31 +11,63 @@ import Combine
 
 class RepositoryDetails: UIViewController {
     
+    // MARK: - Properties
     private let repositoryDetailsViewModel: GithubRepositoryDetailsViewModel
+    
     let scrollView: RepositoryScrollView!
     
+    private var alertMessage: String? {
+        didSet{
+            guard let message = alertMessage else { return }
+            self.showAlert(title: "", message: message)
+        }
+    }
+    
+    private var isLoading: Bool = false {
+        didSet {
+            if(isLoading) {
+                spinner = RepositoriesViewController.displaySpinner()
+            } else {
+                guard let spinner = spinner else { return }
+                RepositoriesViewController.removeSpinner(spinner: spinner)
+            }
+        }
+    }
+    
+    private var spinner: UIView?
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
+    // MARK: - Methods
     init(repositoryDetailsViewModel: GithubRepositoryDetailsViewModel) {
         self.scrollView = RepositoryScrollView(repository: repositoryDetailsViewModel.repository)
         self.repositoryDetailsViewModel = repositoryDetailsViewModel
         super.init(nibName: nil, bundle: nil)
+        self.setup()
+        self.addSubviews()
+        self.addConstraints()
+        
+        self.repositoryDetailsViewModel.getReadme()
+    }
+    
+    private func setup() {
         self.setupStreams()
+        self.setupNavigationBar()
+        self.view.backgroundColor = UIColor(named: "primaryColor")
+    }
+    
+    private func setupNavigationBar() {
         self.navigationItem.title = repositoryDetailsViewModel.repository.name
         let appearance = UINavigationBarAppearance()
         appearance.titleTextAttributes = [.foregroundColor: UIColor(named: "secondaryTextColor")!]
         
         let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
-        
         buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(named: "secondaryTextColor")!]
         appearance.buttonAppearance = buttonAppearance
         navigationItem.standardAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         
         UINavigationBar.appearance().tintColor = UIColor(named: "secondaryTextColor")!
-        
-        self.view.backgroundColor = UIColor(named: "primaryColor")
-        self.addSubviews()
-        self.addConstraints()
-        self.repositoryDetailsViewModel.getReadme()
     }
     
     func addSubviews() {
@@ -65,37 +97,12 @@ class RepositoryDetails: UIViewController {
         ])
     }
     
-    private var alertMessage: String? {
-        didSet{
-            guard let message = alertMessage else { return }
-            self.showAlert(title: "", message: message)
-        }
-    }
-    
-    private var isLoading: Bool = false {
-        didSet {
-            if(isLoading) {
-                spinner = RepositoriesViewController.displaySpinner()
-            } else {
-                guard let spinner = spinner else { return }
-                RepositoriesViewController.removeSpinner(spinner: spinner)
-            }
-        }
-    }
-    
-    private var spinner: UIView?
-    
-    private var subscriptions = Set<AnyCancellable>()
-    
     private func setupStreams() {
         
-//        repositoryDetailsViewModel.$alertMessage
-//        .map({ $0?.message })
-//        .assign(to: \.alertMessage, on: self)
-//        .store(in: &subscriptions)
-        
         repositoryDetailsViewModel.$isLoading
-        .assign(to: \.isLoading, on: self)
+        .sink { [weak self] (isLoading) in
+            self?.isLoading = isLoading
+        }
         .store(in: &subscriptions)
         
         repositoryDetailsViewModel.$readme
