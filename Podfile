@@ -8,14 +8,15 @@ target 'GitTrendy' do
   # Pods for GitTrendy
   pod 'MMMarkdown', '~> 0.5'
 
-  target 'GitTrendyTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+end
 
-  target 'GitTrendyUITests' do
-    # Pods for testing
-  end
+target 'GitTrendyUIKit' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for GitTrendy
+  pod 'MMMarkdown', '~> 0.5'
+  pod 'Kingfisher', '~> 5.15'
 
 end
 
