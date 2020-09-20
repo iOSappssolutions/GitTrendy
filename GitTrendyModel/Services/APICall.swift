@@ -8,6 +8,7 @@
 import Foundation
 
 protocol APICall {
+    var baseUrl: String { get }
     var path: String { get }
     var method: String { get }
     var headers: [String: String]? { get }
@@ -34,10 +35,10 @@ extension APIError: LocalizedError {
 }
 
 extension APICall {
-    func urlRequest(baseURL: String) throws -> URLRequest {
+    func urlRequest() throws -> URLRequest {
         var request: URLRequest
         if let queryItems = queryItems {
-            guard var urlComponents = URLComponents(string: baseURL + path) else {
+            guard var urlComponents = URLComponents(string: baseUrl + path) else {
                throw APIError.invalidURL
             }
             urlComponents.queryItems = queryItems
@@ -47,7 +48,7 @@ extension APICall {
             }
             request = URLRequest(url: calculatedUrl)
         } else {
-            guard let url = URL(string: baseURL + path) else {
+            guard let url = URL(string: baseUrl + path) else {
                 throw APIError.invalidURL
             }
             request = URLRequest(url: url)

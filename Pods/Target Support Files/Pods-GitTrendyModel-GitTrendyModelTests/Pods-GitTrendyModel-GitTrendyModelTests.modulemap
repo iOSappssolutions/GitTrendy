@@ -1,0 +1,6 @@
+framework module Pods_GitTrendyModel_GitTrendyModelTests {
+  umbrella header "Pods-GitTrendyModel-GitTrendyModelTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

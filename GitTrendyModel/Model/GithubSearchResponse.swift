@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GithubSearchResponse: Decodable {
+public struct GithubSearchResponse: Decodable {
     let totalCount: Int
     let repositories: [GitHubRepository]
     

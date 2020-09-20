@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class FakeGithubAPI: XPubAPI {
+class FakeGithubAPI: GithubAPI {
     
     public var baseURL: String = C.baseURL
     
@@ -18,8 +18,12 @@ class FakeGithubAPI: XPubAPI {
         return Empty<GithubSearchResponse, Error>().eraseToAnyPublisher()
     }
     
-    func getReadme(url: String) -> AnyPublisher<String, Error> {
-        return Empty<String, Error>().eraseToAnyPublisher()
+    func getReadme(url: String) -> AnyPublisher<RepositoryReadmeResponse, Error> {
+        return Empty<RepositoryReadmeResponse, Error>().eraseToAnyPublisher()
+    }
+    
+    func downloadReadme(url: String) -> AnyPublisher<Data, Error> {
+        return Empty<Data, Error>().eraseToAnyPublisher()
     }
     
 }

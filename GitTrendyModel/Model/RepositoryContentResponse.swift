@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct RepositoryReadmeResponse: Decodable {
-    let downloadUrl: String
-    let content: String
-    let encoding: String
+public struct RepositoryReadmeResponse: Decodable {
+    let downloadUrl: String?
+    let content: String?
+    let encoding: String?
     
     enum CodingKeys: String, CodingKey {
         case downloadUrl = "download_url"

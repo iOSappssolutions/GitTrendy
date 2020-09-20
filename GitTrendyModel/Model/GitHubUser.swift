@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct GitHubUser: Decodable {
-    let name: String
-    let avatarUrl: String
+public struct GitHubUser: Decodable {
+    public let name: String
+    public let avatarUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case name = "login"

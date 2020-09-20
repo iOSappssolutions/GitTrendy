@@ -11,7 +11,7 @@ public struct C {
     
     // MARK: Base URL
     
-    static let baseURL = "https://api.github.com/"
+    public static let baseURL = "https://api.github.com/"
     
     // MARK: Endpoints
     

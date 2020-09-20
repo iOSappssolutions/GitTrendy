@@ -19,7 +19,7 @@ extension WebRepository {
         where Value: Decodable {
         do {
             try checkNetwork()
-            let request = try endpoint.urlRequest(baseURL: baseURL)
+            let request = try endpoint.urlRequest()
             
             return session
                 .dataTaskPublisher(for: request)
@@ -29,6 +29,22 @@ extension WebRepository {
             return Fail<Value, Error>(error: error).eraseToAnyPublisher()
         }
     }
+    
+    func call(endpoint: APICall, httpCodes: HTTPCodes = .success) -> AnyPublisher<Data, Error> {
+        do {
+            try checkNetwork()
+            let request = try endpoint.urlRequest()
+            
+            return session
+                .dataTaskPublisher(for: request)
+                .requestData(httpCodes: httpCodes)
+                .ensureTimeSpan(0.5)
+        } catch let error {
+            return Fail<Data, Error>(error: error).eraseToAnyPublisher()
+        }
+    }
+    
+    
 }
 
 private extension WebRepository {
@@ -57,6 +73,7 @@ private extension Publisher where Output == URLSession.DataTaskPublisher.Output 
     func requestJSON<Value>(httpCodes: HTTPCodes) -> AnyPublisher<Value, Error> where Value: Decodable {
         return tryMap {
                 assert(!Thread.isMainThread)
+            NSLog(String(data: $0.0, encoding: .utf8)!)
                 guard let code = ($0.1 as? HTTPURLResponse)?.statusCode else {
                     throw APIError.unexpectedResponse
                 }
@@ -68,6 +85,23 @@ private extension Publisher where Output == URLSession.DataTaskPublisher.Output 
             }
             .extractUnderlyingError()
             .decode(type: Value.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    func requestData(httpCodes: HTTPCodes) -> AnyPublisher<Data, Error> {
+        return tryMap {
+                assert(!Thread.isMainThread)
+                guard let code = ($0.1 as? HTTPURLResponse)?.statusCode else {
+                    throw APIError.unexpectedResponse
+                }
+                guard httpCodes.contains(code) else {
+                    throw APIError.httpCode(code)
+                }
+
+                return $0.0
+            }
+            .extractUnderlyingError()
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

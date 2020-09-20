@@ -1,0 +1,6 @@
+framework module Pods_GitTrendy_GitTrendyUITests {
+  umbrella header "Pods-GitTrendy-GitTrendyUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
